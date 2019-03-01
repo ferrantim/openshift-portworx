@@ -58,7 +58,7 @@ deployment "postgres" created
 
 Make sure that the Postgres pod is in Running state.
 
-<img src="images/pgsql-px-os-7.jpg" alt="drawing" width="250"/> 
+<img src="images/pgsql-px-os-7.jpg" alt="drawing"> 
 
 ```
 $ oc get pods -l app=postgres -o wide --watch
