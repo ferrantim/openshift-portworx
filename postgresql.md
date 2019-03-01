@@ -3,6 +3,8 @@
 
 [Portworx](https://portworx.com/) is a cloud native storage platform to run persistent workloads deployed on a variety of orchestration engines, including Kubernetes and Red Hat OpenShift. With Portworx, customers can manage the database of their choice on any infrastructure using Red Hat OpenShift. It provides a single [Kubernetes storage](https://portworx.com/use-case/kubernetes-storage/) and data management layer for all stateful services,wherever they run and is optimized for low-latency, high-throughput workloads like Cassandra, Kafka, MongoDB, ElasticSearch, and the subject of today’s post, [PostgreSQL](https://postgresql.org).
 
+<img src="images/red-hat-certified-tech-logo.jpg" alt="drawing" width="250"/> 
+
 Portworx is Red Hat certified for Red Hat OpenShift Container Platform, and PX-Enterprise is available in the [Red Hat Container Catalog](https://access.redhat.com/containers/#/product/8c28ed6afa0d15d7). [Learn more about Portworx & OpenShift in our Product Brief](https://portworx.com/wp-content/uploads/2018/04/Portworx_Openshift_ProductBrief.pdf).
 
 This tutorial is a walk-through of the steps involved in deploying and managing a highly available PostgreSQL cluster on OpenShift. To install and configure an OpenShift Origin cluster and install Portworx, refer to the recent guide on [running HA MongoDB on Openshift](https://blog.openshift.com/deploying-ha-mongodb-on-openshift-using-portworx/).
