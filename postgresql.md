@@ -282,7 +282,8 @@ exit
 
 Notice that the table is still there with the data intact.
 
-<img src="images/pgsql-px-os-12.jpg" alt="drawing"> 
+<img src="images/px-pgsql-os-12.jpg" alt="drawing"> 
+
 
 ## Summary
 Portworx can be easily deployed on Red Hat OpenShift to run stateful workloads in production. Through the integration of Portworx and OpenShift, DevOps and DataOps teams can seamlessly run highly available database clusters in OpenShift. They can perform traditional operations such as volume expansion, snapshots, backup and recovery for the cloud native applications.
