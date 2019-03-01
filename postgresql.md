@@ -58,6 +58,8 @@ deployment "postgres" created
 
 Make sure that the Postgres pod is in Running state.
 
+<img src="images/pgsql-px-os-7.jpg" alt="drawing" width="250"/> 
+
 ```
 $ oc get pods -l app=postgres -o wide --watch
 ```
@@ -71,8 +73,9 @@ $ VOL=`oc get pvc | grep px-postgres-pvc | awk '{print $3}'`
 $ PX_POD=$(oc get pods -l name=portworx -n kube-system -o jsonpath='{.items[0].metadata.name}') 
 $ oc exec -it $PX_POD -n kube-system -- /opt/pwx/bin/pxctl volume inspect ${VOL}
 ```
+<img src="images/pgsql-px-os-3.jpg" alt="drawing" width="250"/> 
 
-Failing over PostgreSQL on OpenShift
+## Failing over PostgreSQL on OpenShift
 Let’s populate the database will 5 million rows of sample data.
 We will first find the pod that’s running PostgreSQL to access the shell.
 
@@ -89,6 +92,7 @@ pgbench=# c\q
 pgbench=# \l 
 pgbench=# \q
 ```
+<img src="images/pgsql-px-os-4.jpg" alt="drawing" width="250"/> 
 
 By default, pgbench will create 4 tables (pgbench_branches, pgbench_tellers, pgbench_accounts, and pgbench_history) with 100,000 rows in the main pgbench_accounts table. This creates a simple 16MB database.
 
@@ -109,12 +113,15 @@ select count(*) from pgbench_accounts;
 exit
 ```
 
+<img src="images/pgsql-px-os-5.jpg" alt="drawing" width="250"/> 
+
 Now, let’s simulate the node failure by cordoning off the node on which PostgreSQL is running.
 
 ```
 $ NODE=`oc get pods -l app=postgres -o wide | grep -v NAME | awk '{print $7}'` 
 $ oc adm cordon ${NODE}
 ```
+<img src="images/pgsql-px-os-6.jpg" alt="drawing" width="250"/> 
 
 We will now go ahead and delete the PostgreSQL pod.
 
@@ -126,7 +133,10 @@ pod "postgres-646d9f5c95-8rwsm" deleted
 ```
 
 As soon as the pod is deleted, it is relocated to the node with the replicated data. STorage ORchestrator for Kubernetes (STORK), Portworx’s custom storage scheduler, allows co-locating the pod on the exact node where the data is stored. It ensures that an appropriate node is selected for scheduling the pod.
+
 Let’s verify this by running the below command. We will notice that a new pod has been created and scheduled in a different node.
+
+<img src="images/pgsql-px-os-7.jpg" alt="drawing" width="250"/> 
 
 Let’s uncordon the node to bring it back to action.
 
@@ -153,6 +163,8 @@ pxdemo=# select count(*) from pgbench_accounts;
 pxdemo=# \q 
 pxdemo=# exit
 ```
+
+<img src="images/pgsql-px-os-8.jpg" alt="drawing" width="250"/> 
 
 ## Performing Storage Operations on Postgres on OpenShift
 After testing end-to-end failover of the database, let’s perform StorageOps on our Openshift cluster.
@@ -189,11 +201,15 @@ $ /opt/pwx/bin/pxctl v i $POD
 
 Notice that the volume is within 10% of being full. Let’s expand it using the following command.
 
+<img src="images/pgsql-px-os-9.jpg" alt="drawing" width="250"/> 
+
 ```
 $ /opt/pwx/bin/pxctl volume update $POD --size=2 
 
 Update Volume: Volume update successful for volume 687312134670043252
 ```
+
+<img src="images/pgsql-px-os-10.jpg" alt="drawing" width="250"/> 
 
 ### Taking Snapshots of a Kubernetes volume and restoring the Postgres database
 Portworx supports creating snapshots for OpenShift PVCs. Let’s create a snapshot for the PVC we created for Postgres.
@@ -209,6 +225,8 @@ You can see all the snapshots using the below command.
 ```
 $ oc get volumesnapshot,volumesnapshotdata $ oc get volumesnapshot
 ```
+
+<img src="images/pgsql-px-os-11.jpg" alt="drawing" width="250"/> 
 
 ```
 $ oc get pods -l app=postgres-snap
@@ -263,6 +281,8 @@ exit
 ```
 
 Notice that the table is still there with the data intact.
+
+<img src="images/pgsql-px-os-12.jpg" alt="drawing" width="250"/> 
 
 ## Summary
 Portworx can be easily deployed on Red Hat OpenShift to run stateful workloads in production. Through the integration of Portworx and OpenShift, DevOps and DataOps teams can seamlessly run highly available database clusters in OpenShift. They can perform traditional operations such as volume expansion, snapshots, backup and recovery for the cloud native applications.
