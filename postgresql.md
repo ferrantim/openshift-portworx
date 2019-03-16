@@ -1,13 +1,13 @@
 
 # Deploying HA PostgreSQL on OpenShift using Portworx
 
-[Portworx](https://portworx.com/) is a cloud native storage platform to run persistent workloads deployed on a variety of orchestration engines, including Kubernetes and Red Hat OpenShift. With Portworx, customers can manage the database of their choice on any infrastructure using Red Hat OpenShift. It provides a single [Kubernetes storage](https://portworx.com/use-case/kubernetes-storage/) and data management layer for all stateful services,wherever they run and is optimized for low-latency, high-throughput workloads like Cassandra, Kafka, MongoDB, ElasticSearch, and the subject of today’s post, [PostgreSQL](https://postgresql.org).
+[Portworx](https://portworx.com/) is a cloud native storage platform to run persistent workloads deployed on a variety of orchestration engines, including Kubernetes and Red Hat OpenShift. With Portworx, customers can manage the database of their choice on any infrastructure using Red Hat OpenShift. It provides a single [Kubernetes storage](https://portworx.com/use-case/kubernetes-storage/) and data management layer for stateful services,wherever they run and is optimized for low-latency, high-throughput workloads like Cassandra, Kafka, MongoDB, ElasticSearch, and the subject of today’s post, [PostgreSQL](https://postgresql.org).
 
 <img src="images/red-hat-certified-tech-logo.jpg" alt="drawing" width="250"/> 
 
-Portworx is Red Hat certified for Red Hat OpenShift Container Platform, and PX-Enterprise is available in the [Red Hat Container Catalog](https://access.redhat.com/containers/#/product/8c28ed6afa0d15d7). [Learn more about Portworx & OpenShift in our Product Brief](https://portworx.com/wp-content/uploads/2018/04/Portworx_Openshift_ProductBrief.pdf).
+The Portworx PX-Enterprise image is certified to run on Red Hat OpenShift Container Platform, and PX-Enterprise is available in the [Red Hat Container Catalog](https://access.redhat.com/containers/#/product/8c28ed6afa0d15d7). [Learn more about Portworx & OpenShift in our Product Brief](https://portworx.com/wp-content/uploads/2018/04/Portworx_Openshift_ProductBrief.pdf).
 
-This tutorial is a walk-through of the steps involved in deploying and managing a highly available PostgreSQL cluster on OpenShift. To install and configure an OpenShift Origin cluster and install Portworx, refer to the recent guide on [running HA MongoDB on Openshift](https://blog.openshift.com/deploying-ha-mongodb-on-openshift-using-portworx/).
+This tutorial is a walk-through of the steps involved in deploying and managing a highly available PostgreSQL cluster on OpenShift. To install and configure an OKD cluster and install Portworx, refer to the recent guide on [running HA MongoDB on OpenShift](https://blog.openshift.com/deploying-ha-mongodb-on-openshift-using-portworx/).
 
 In summary, to run HA PostgreSQL on OpenShift you need to:
 * Create an OpenShift cluster running at least three nodes
@@ -132,7 +132,7 @@ $ oc delete pod ${POD}
 pod "postgres-646d9f5c95-8rwsm" deleted
 ```
 
-As soon as the pod is deleted, it is relocated to the node with the replicated data. STorage ORchestrator for Kubernetes (STORK), Portworx’s custom storage scheduler, allows co-locating the pod on the exact node where the data is stored. It ensures that an appropriate node is selected for scheduling the pod.
+As soon as the pod is deleted, it is relocated to the node with the replicated data. STorage ORchestrator for Kubernetes (STORK), Portworx’s custom storage scheduler, allows co-locating the pod on the exact node where the data is stored. It helps to ensure that an appropriate node is selected for scheduling the pod.
 
 Let’s verify this by running the below command. We will notice that a new pod has been created and scheduled in a different node.
 
@@ -286,4 +286,4 @@ Notice that the table is still there with the data intact.
 
 
 ## Summary
-Portworx can be easily deployed on Red Hat OpenShift to run stateful workloads in production. Through the integration of Portworx and OpenShift, DevOps and DataOps teams can seamlessly run highly available database clusters in OpenShift. They can perform traditional operations such as volume expansion, snapshots, backup and recovery for the cloud native applications.
+Portworx can be easily deployed on Red Hat OpenShift to run stateful workloads in production. Through Portworx working with OpenShift, DevOps and DataOps teams can easily run highly available database clusters in OpenShift. They can perform traditional operations such as volume expansion, snapshots, backup and recovery for the cloud native applications.
